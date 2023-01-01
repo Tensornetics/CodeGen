@@ -1,0 +1,58 @@
+import tensorflow as tf
+import nltk
+
+class CodeGen:
+  def __init__(self, input_language, output_language):
+    self.input_language = input_language
+    self.output_language = output_language
+    self.model = self.build_model()
+
+  def preprocess_data(self, data):
+    # tokenize text and convert to sequences of integers
+    tokenizer = nltk.tokenize.word_tokenize(data)
+    sequences = tokenizer.texts_to_sequences(data)
+
+    # pad or truncate sequences to fixed length
+    padded_sequences = tf.keras.preprocessing.sequence.pad_sequences(sequences, padding='post', maxlen=max_length)
+
+    return padded_sequences
+
+  def build_model(self):
+    # create placeholders for input and output data
+    input_data = tf.placeholder(tf.string, shape=[None])
+    output_data = tf.placeholder(tf.string, shape=[None])
+
+    # create model with initial architecture
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Embedding(input_dim=num_words, output_dim=embedding_dim))
+    model.add(tf.keras.layers.LSTM(units=lstm_units))
+    model.add(tf.keras.layers.Dense(num_words, activation='softmax'))
+
+    # compile model
+    model.compile(optimizer='adam', loss='categorical_crossentropy')
+
+    return model
+
+  def train(self, input_data, output_data, epochs):
+    # preprocess input and output data
+    input_data = self.preprocess_data(input_data)
+    output_data = self.preprocess_data(output_data)
+
+    # train model
+    self.model.fit(input_data, output_data, epochs=epochs, verbose=1)
+
+  def evaluate(self, input_data, output_data):
+    # preprocess input and output data
+    input_data = self.preprocess_data(input_data)
+    output_data = self.preprocess_data(output_data)
+
+    # evaluate model
+    loss, accuracy = self.model.evaluate(input_data, output_data, verbose=0)
+    return loss, accuracy
+
+  def generate_code(self, description):
+    # preprocess description
+    description = self.preprocess_data(description)
+
+    # generate code
+    code = self.model.
