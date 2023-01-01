@@ -1,0 +1,15 @@
+import codegen
+
+# initialize CodeGen with input and output languages
+cg = codegen.CodeGen('english', 'python')
+
+# train the model using input and output data
+cg.train(input_data, output_data, epochs=10)
+
+# evaluate the model on separate test data
+loss, accuracy = cg.evaluate(test_input, test_output)
+
+# generate code from natural language description
+code = cg.generate_code('a program that sorts a list of numbers in ascending order')
+
+print(code)
