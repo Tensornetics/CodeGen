@@ -1,0 +1,24 @@
+import tensorflow as tf
+
+class CodeGen:
+  def __init__(self, input_language, output_language):
+    self.input_language = input_language
+    self.output_language = output_language
+    self.model = self.build_model()
+
+  def build_model(self):
+    # create placeholders for input and output data
+    input_data = tf.placeholder(tf.string, shape=[None])
+    output_data = tf.placeholder(tf.string, shape=[None])
+
+    # create model with initial architecture
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Embedding(input_dim=num_words, output_dim=embedding_dim))
+    model.add(tf.keras.layers.LSTM(units=lstm_units))
+    model.add(tf.keras.layers.Dense(num_words, activation='softmax'))
+
+    # compile model
+    model.compile(optimizer='adam', loss='categorical_crossentropy')
+
+    return model
+
