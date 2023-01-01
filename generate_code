@@ -1,0 +1,12 @@
+  def generate_code(self, description):
+    # preprocess description
+    description = self.preprocess_data(description)
+
+    # generate code
+    code = self.model.predict(description)
+
+    # convert integers back to text using dictionary
+    code_text = [int_to_word[integer] for integer in code[0]]
+    code_text = ' '.join(code_text)
+
+    return code_text
